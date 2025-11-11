@@ -53,6 +53,19 @@ class BaseModel {
             );
         ");
 
+        $pdo->exec("
+            CREATE TABLE IF NOT EXISTS review (
+                id_review INT AUTO_INCREMENT PRIMARY KEY,
+                id_producto INT NOT NULL,
+                nombre_usuario VARCHAR(100) NOT NULL,
+                comentario TEXT NOT NULL,
+                puntuacion INT CHECK (puntuacion BETWEEN 1 AND 5),
+                fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (id_producto) REFERENCES producto(id_producto)
+                    ON DELETE CASCADE
+            );
+        ");
+
         // Insertar datos iniciales si están vacías
         $this->insertarDatosIniciales($pdo);
     }
@@ -83,6 +96,24 @@ class BaseModel {
         $count = $pdo->query("SELECT COUNT(*) FROM user")->fetchColumn();
         if ($count == 0) {
             $pdo->exec("INSERT INTO user (usuario, password) VALUES ('webadmin', 'admin')");
+        }
+
+        // Reseñas
+        $count = $pdo->query("SELECT COUNT(*) FROM review")->fetchColumn();
+        if ($count == 0) {
+            $pdo->exec("
+                INSERT INTO review (id_producto, nombre_usuario, comentario, puntuacion) VALUES
+                (7, 'Mariano Pérez', 'Excelente calidad, muy cómodo para entrenar', 5),
+                (8, 'Lucía Fernández', 'Buena remera pero un poco ajustada', 4),
+                (9, 'Sofía López', 'Ideal para gimnasio, muy recomendable', 5),
+                (10, 'Carlos Gómez', 'Zapatillas cómodas pero algo duras al principio', 4),
+                (11, 'Nicolás Duarte', 'La tela es liviana, perfecta para verano', 5),
+                (12, 'Valentina Ruiz', 'Me encantó la calza, super cómoda', 5),
+                (13, 'Martina Acosta', 'Top de buena calidad, aunque un poco caro', 4),
+                (14, 'Camila Sosa', 'Remera muy linda, transpirable', 5),
+                (15, 'Ana Torres', 'Short cómodo pero se achicó un poco', 3),
+                (16, 'Carolina Díaz', 'Zapatillas hermosas y livianas', 5)
+            ");
         }
     }
 }
