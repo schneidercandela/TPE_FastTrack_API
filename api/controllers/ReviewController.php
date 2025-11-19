@@ -18,7 +18,7 @@ class ReviewController{
         return json_decode($this->data);
     }
 
-    public function getReviews(){
+    /*public function getReviews(){
         $reviews = $this->model->getReviews();
 
         if(!empty($reviews)){
@@ -26,6 +26,36 @@ class ReviewController{
         }
         else{
           $this->view->response("No hay reviews cargadas", 404);  
+        }
+    }*/
+    public function getReviews($params = []) {
+
+        $orden = [];
+        //El controlador pasa los parametros de orden al modelo si están presentes
+        if (isset($_GET['sort'])) {
+            $orden['sort'] = $_GET['sort'];
+            if (isset($_GET['order'])) {
+                $orden['order'] = $_GET['order'];
+            }
+        }
+
+        //El controlador pasa los parametros de paginación al modelo si están presentes
+        if(isset($_GET['page']) && isset($_GET['limit'])) {
+            $orden['page'] = intval($_GET['page']);
+            $orden['limit'] = intval($_GET['limit']);
+        }
+
+        if(isset($_GET['field']) && isset($_GET['value'])) {
+            $orden['field'] = $_GET['field'];
+            $orden['value'] = $_GET['value'];
+        }
+
+        $reviews = $this->model->getReviews($orden);
+
+        if(!empty($reviews)){
+               $this->view->response($reviews, 200);
+        }else{
+                $this->view->response("No hay reseñas cargadas", 404);
         }
     }
 
@@ -68,6 +98,16 @@ class ReviewController{
 
         if (!$review) {
             $this->view->response("La review id=$id no existe", 404);
+            return;
+        }
+
+        if (empty($data->comentario)  empty($data->puntuacion)) {
+            $this->view->response("Faltan datos obligatorios: comentario y puntuacion son requeridos", 400);
+            return;
+        }
+
+        if (!is_numeric($data->puntuacion)  $data->puntuacion < 1 || $data->puntuacion > 10) {
+            $this->view->response("La puntuación debe ser un número entre 1 y 10", 400);
             return;
         }
 

@@ -59,7 +59,7 @@ class BaseModel {
                 id_producto INT NOT NULL,
                 nombre_usuario VARCHAR(100) NOT NULL,
                 comentario TEXT NOT NULL,
-                puntuacion INT CHECK (puntuacion BETWEEN 1 AND 5),
+                puntuacion INT CHECK (puntuacion BETWEEN 1 AND 10),
                 fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (id_producto) REFERENCES producto(id_producto)
                     ON DELETE CASCADE
@@ -103,17 +103,17 @@ class BaseModel {
         if ($count == 0) {
             $pdo->exec("
                 INSERT INTO review (id_producto, nombre_usuario, comentario, puntuacion) VALUES
-                (7, 'Mariano Pérez', 'Excelente calidad, muy cómodo para entrenar', 5),
-                (8, 'Lucía Fernández', 'Buena remera pero un poco ajustada', 4),
-                (9, 'Sofía López', 'Ideal para gimnasio, muy recomendable', 5),
-                (10, 'Carlos Gómez', 'Zapatillas cómodas pero algo duras al principio', 4),
-                (11, 'Nicolás Duarte', 'La tela es liviana, perfecta para verano', 5),
-                (12, 'Valentina Ruiz', 'Me encantó la calza, super cómoda', 5),
-                (13, 'Martina Acosta', 'Top de buena calidad, aunque un poco caro', 4),
-                (14, 'Camila Sosa', 'Remera muy linda, transpirable', 5),
-                (15, 'Ana Torres', 'Short cómodo pero se achicó un poco', 3),
-                (16, 'Carolina Díaz', 'Zapatillas hermosas y livianas', 5)
-            ");
+                (1, 'Mariano Pérez', 'Excelente calidad, muy cómodo para entrenar', 5),
+                (2, 'Lucía Fernández', 'Buena remera pero un poco ajustada', 4),
+                (3, 'Sofía López', 'Ideal para gimnasio, muy recomendable', 5),
+                (4, 'Carlos Gómez', 'Zapatillas cómodas pero algo duras al principio', 4),
+                (5, 'Nicolás Duarte', 'La tela es liviana, perfecta para verano', 5),
+                (6, 'Valentina Ruiz', 'Me encantó la calza, super cómoda', 5),
+                (7, 'Martina Acosta', 'Top de buena calidad, aunque un poco caro', 4),
+                (8, 'Camila Sosa', 'Remera muy linda, transpirable', 5),
+                (9, 'Ana Torres', 'Short cómodo pero se achicó un poco', 3),
+                (10, 'Carolina Díaz', 'Zapatillas hermosas y livianas', 5)"
+            );
         }
     }
 }
