@@ -17,17 +17,7 @@ class ReviewController{
     private function getData() {
         return json_decode($this->data);
     }
-
-    /*public function getReviews(){
-        $reviews = $this->model->getReviews();
-
-        if(!empty($reviews)){
-            $this->view->response($reviews, 200);
-        }
-        else{
-          $this->view->response("No hay reviews cargadas", 404);  
-        }
-    }*/
+    
     public function getReviews($params = []) {
 
         $orden = [];
