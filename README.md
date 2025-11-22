@@ -6,8 +6,6 @@
 
 ---
 
-##  DER
-
 
 ##  URL Base de Ejemplo
 ```
