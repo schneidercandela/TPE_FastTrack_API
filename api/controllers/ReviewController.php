@@ -91,10 +91,11 @@ class ReviewController{
             return;
         }
 
-        if (empty($data->comentario)  empty($data->puntuacion)) {
+        if (empty($data->comentario) || empty($data->puntuacion)) {
             $this->view->response("Faltan datos obligatorios: comentario y puntuacion son requeridos", 400);
             return;
         }
+
 
         if (!is_numeric($data->puntuacion)  $data->puntuacion < 1 || $data->puntuacion > 10) {
             $this->view->response("La puntuación debe ser un número entre 1 y 10", 400);
